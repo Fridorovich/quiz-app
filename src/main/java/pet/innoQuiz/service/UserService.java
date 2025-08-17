@@ -13,7 +13,6 @@ import pet.innoQuiz.model.entity.Profile;
 import pet.innoQuiz.model.entity.User;
 import pet.innoQuiz.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -81,8 +80,8 @@ public class UserService {
         );
     }
 
-    public UserResponse updateMe(){
+    /*public UserResponse updateMe(){
 
-    }
+    }*/
 
 }
