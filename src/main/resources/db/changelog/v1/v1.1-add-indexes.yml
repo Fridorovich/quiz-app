@@ -1,0 +1,104 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: fridorovich
+      changes:
+        - createIndex:
+            tableName: quizzes
+            indexName: idx_quizzes_author
+            columns:
+              - column:
+                  name: author_id
+        - createIndex:
+            tableName: quizzes
+            indexName: idx_quizzes_public
+            columns:
+              - column:
+                  name: is_public
+
+        - createIndex:
+            tableName: questions
+            indexName: idx_questions_quiz
+            columns:
+              - column:
+                  name: quiz_id
+        - createIndex:
+            tableName: questions
+            indexName: idx_questions_quiz_id
+            columns:
+              - column:
+                  name: quiz_id
+              - column:
+                  name: id
+
+        - createIndex:
+            tableName: answers
+            indexName: idx_answers_question
+            columns:
+              - column:
+                  name: question_id
+        - createIndex:
+            tableName: answers
+            indexName: idx_answers_correct
+            columns:
+              - column:
+                  name: is_correct
+
+        - createIndex:
+            tableName: quiz_results
+            indexName: idx_results_user
+            columns:
+              - column:
+                  name: user_id
+        - createIndex:
+            tableName: quiz_results
+            indexName: idx_results_quiz
+            columns:
+              - column:
+                  name: quiz_id
+        - createIndex:
+            tableName: quiz_results
+            indexName: idx_results_date
+            columns:
+              - column:
+                  name: completed_at
+        - createIndex:
+            tableName: quiz_results
+            indexName: idx_results_quiz_score
+            columns:
+              - column:
+                  name: quiz_id
+              - column:
+                  name: score
+                  descending: true
+      rollback:
+        - dropIndex:
+            tableName: quizzes
+            indexName: idx_quizzes_author
+        - dropIndex:
+            tableName: quizzes
+            indexName: idx_quizzes_public
+        - dropIndex:
+            tableName: questions
+            indexName: idx_questions_quiz
+        - dropIndex:
+            tableName: questions
+            indexName: idx_questions_quiz_id
+        - dropIndex:
+            tableName: answers
+            indexName: idx_answers_question
+        - dropIndex:
+            tableName: answers
+            indexName: idx_answers_correct
+        - dropIndex:
+            tableName: quiz_results
+            indexName: idx_results_user
+        - dropIndex:
+            tableName: quiz_results
+            indexName: idx_results_quiz
+        - dropIndex:
+            tableName: quiz_results
+            indexName: idx_results_date
+        - dropIndex:
+            tableName: quiz_results
+            indexName: idx_results_quiz_score
