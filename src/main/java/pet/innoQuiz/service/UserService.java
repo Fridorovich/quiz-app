@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pet.innoQuiz.exception.EmailAlreadyExistsException;
 import pet.innoQuiz.exception.UserAlreadyExistsException;
 import pet.innoQuiz.exception.UserNotExistException;
+import pet.innoQuiz.model.dto.UpdateUserRequest;
 import pet.innoQuiz.model.dto.UserResponse;
 import pet.innoQuiz.model.entity.Profile;
 import pet.innoQuiz.model.entity.User;
@@ -69,7 +70,7 @@ public class UserService {
     @Transactional
     public UserResponse getMe(Long id){
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User with id " + id + " not found"));
 
         return new UserResponse(
                 user.getId(),
@@ -80,8 +81,37 @@ public class UserService {
         );
     }
 
-    /*public UserResponse updateMe(){
+    @Transactional
+    public UserResponse updateMe(Long id, UpdateUserRequest updateRequest) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotExistException("User with id " + id + " not found"));
 
-    }*/
+        if (updateRequest.getEmail() != null && !updateRequest.getEmail().equals(user.getEmail())) {
+            if (userRepository.existsByEmail(updateRequest.getEmail())) {
+                throw new EmailAlreadyExistsException("Email " + updateRequest.getEmail() + " is already taken");
+            }
+            user.setEmail(updateRequest.getEmail());
+        }
+
+        if (updateRequest.getUsername() != null) {
+            if (userRepository.existsByUsername(updateRequest.getUsername())) {
+                throw new UserAlreadyExistsException("Username '" + updateRequest.getUsername() + "' already exists");
+            }
+            user.setUsername(updateRequest.getUsername());
+        }
+
+        if (updateRequest.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(updateRequest.getPassword()));
+        }
+
+        User updatedUser = userRepository.save(user);
+
+        return UserResponse.builder()
+                .id(updatedUser.getId())
+                .username(updatedUser.getUsername())
+                .email(updatedUser.getEmail())
+                .role(updatedUser.getRole())
+                .build();
+    }
 
 }

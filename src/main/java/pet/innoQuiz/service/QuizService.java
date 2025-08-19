@@ -187,4 +187,9 @@ public class QuizService {
     private AnswerDto convertToAnswerDto(Answer answer) {
         return new AnswerDto(answer.getId(), answer.getText());
     }
+
+    /*@Transactional
+    public QuizResponse updateQuiz(Long id, ){
+        return null;
+    }*/
 }

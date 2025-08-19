@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pet.innoQuiz.model.dto.UpdateUserRequest;
 import pet.innoQuiz.model.dto.UserRequest;
 import pet.innoQuiz.model.dto.UserResponse;
 import pet.innoQuiz.model.entity.User;
@@ -44,5 +45,12 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<UserResponse> getMe(@RequestParam Long id){
         return ResponseEntity.ok(userService.getMe(id));
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<UserResponse> updateMe(@RequestParam Long id,
+                                                 @RequestBody UpdateUserRequest request)
+    {
+        return ResponseEntity.ok(userService.updateMe(id, request));
     }
 }
